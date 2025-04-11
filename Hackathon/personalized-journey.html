@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Journey | GuideX</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">GUIDEX</div>
+        <ul>
+            <li><a href="dashboard.html">Home</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="personalized-journey.html">Personalized Journey</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfein-cgx1nCJPj9CjYUIpK4UWE23olm6gg-pnYGi0vzCR3Iw/viewform?usp=sharing" target="_blank">Career Test</a></li>
+            <li></li>
+        </ul>
+    </nav>
+
+    <!-- Personalized Journey Section -->
+    <section id="personalized-journey">
+        <h2>Start Your Personalized Journey</h2>
+        <p>Answer a few questions to explore career options tailored for you.</p>
+        
+        <!-- Form for personalized guidance -->
+        <form id="journey-form">
+            <label for="interests">What are your main interests?</label>
+            <select id="interests" name="interests">
+                <option value="engineering">Engineering & Technology</option>
+                <option value="medical">Medical & Life Sciences</option>
+                <option value="commerce">Finance & Business</option>
+                <option value="arts">Creative & Humanities</option>
+                <option value="diploma">Technical Diplomas</option>
+            </select>
+
+            <label for="skills">What are your strengths?</label>
+            <input type="text" id="skills" name="skills" placeholder="E.g. Mathematics, Communication, Creativity">
+
+            <label for="career-goal">Your Dream Career?</label>
+            <input type="text" id="career-goal" name="career-goal" placeholder="E.g. Software Engineer, Doctor, Artist">
+
+            <button type="button" onclick="showRecommendation()">Get Recommendation</button>
+        </form>
+
+        <!-- Recommendation Area -->
+        <div id="recommendation" class="hidden">
+            <h3>Your Career Path</h3>
+            <p id="result-text">Answer the questions to get recommendations.</p>
+        </div>
+
+        <!-- Back to Dashboard -->
+        <div class="section-buttons">
+            <a href="dashboard.html">Back to Dashboard</a>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

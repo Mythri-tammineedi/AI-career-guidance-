@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Call</title>
+    <script src="https://sdk.twilio.com/js/video/releases/2.20.0/twilio-video.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">GUIDEX</div>
+        <ul>
+            <li><a href="dashboard.html">Home</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="personalized-journey.html">Personalized Journey</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfein-cgx1nCJPj9CjYUIpK4UWE23olm6gg-pnYGi0vzCR3Iw/viewform?usp=sharing" target="_blank">Career Test</a></li>
+            <li></li>
+        </ul>
+    </nav>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <p>Need guidance? Reach out to our counselors via email, WhatsApp, or video call.</p>
+        
+        <div class="contact-buttons">
+            <!-- Email Button -->
+            <a href="mailto:support@guidex.com" class="contact-btn email">Email Us</a>
+    
+            <!-- WhatsApp Button -->
+            <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="contact-btn whatsapp">WhatsApp</a>
+    
+    </section>
+    
+    <section>
+    <button id="join-call">Join Video Call</button>
+    <div id="video-container"></div>
+
+    <script>
+        document.getElementById("join-call").addEventListener("click", async () => {
+            const identity = "User" + Math.floor(Math.random() * 1000);  // Random username
+
+            // Get token from the server
+            const response = await fetch('http://localhost:3000/token', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ identity })
+            });
+            const data = await response.json();
+            const token = data.token;
+
+            // Join Twilio Video Room
+            Twilio.Video.connect(token, { name: "GuideX-Room" }).then(room => {
+                console.log(`Joined Room: ${room.name}`);
+
+                room.participants.forEach(participant => {
+                    console.log(`Participant connected: ${participant.identity}`);
+                    attachParticipantTracks(participant);
+                });
+
+                room.on("participantConnected", participant => {
+                    console.log(`Participant connected: ${participant.identity}`);
+                    attachParticipantTracks(participant);
+                });
+
+                room.on("participantDisconnected", participant => {
+                    console.log(`Participant disconnected: ${participant.identity}`);
+                    document.getElementById(participant.sid).remove();
+                });
+
+                const localParticipant = room.localParticipant;
+                attachParticipantTracks(localParticipant);
+            });
+        });
+
+        function attachParticipantTracks(participant) {
+            const videoContainer = document.getElementById("video-container");
+            participant.tracks.forEach(publication => {
+                if (publication.isSubscribed) {
+                    videoContainer.appendChild(publication.track.attach());
+                }
+            });
+        }
+    </script>
+</section>
+</body>
+</html>
